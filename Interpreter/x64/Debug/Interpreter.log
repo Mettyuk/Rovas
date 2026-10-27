@@ -1,0 +1,3 @@
+﻿  Interpreter.cpp
+C:\Home\Learning\Interpreter\Interpreter\Interpreter\Interpreter.cpp(8,6): warning C4101: 'asd': unreferenced local variable
+  Interpreter.vcxproj -> C:\Home\Learning\Interpreter\Interpreter\x64\Debug\Interpreter.exe
