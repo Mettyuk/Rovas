@@ -3,6 +3,7 @@
 enum class TokenType {
 	INT,
 	PLUS,
+	MINUS,
 	ASTERISK,
 	SEMICOLON,
 	EQUALS,

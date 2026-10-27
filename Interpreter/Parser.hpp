@@ -7,21 +7,21 @@ struct Expr
 	virtual ~Expr() = default;
 };
 
-class Binary : Expr
+class Binary : public Expr
 {
 public:
 	Expr left;
-	char opr;
+	std::string opr;
 	Expr right;
 
-	Binary(Expr l, Expr r, char o) : left(std::move(l)), right(std::move(r)), opr(std::move(o))
+	Binary(Expr l, Expr r, std::string o) : left(std::move(l)), right(std::move(r)), opr(std::move(o))
 	{
 	};
 private:
 
 };
 
-class Number
+class Number : public Expr
 {
 public:
 	Number(std::string value) : number(std::stoi(value))
@@ -42,6 +42,13 @@ public:
 	{
 	};
 	
+	Expr expression();
+	Expr term();
+	Expr factor();
+
+	int current = 0;
+
+	Expr parse();
 
 private:
 	std::vector<Token> toks;

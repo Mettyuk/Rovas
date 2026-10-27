@@ -18,6 +18,9 @@ std::vector<Token> Lexer::Tokenize() {
 		if (input[i] == ';') {
 			tokens.push_back({ ";", TokenType::SEMICOLON});
 		}
+		if (input[i] == '-') {
+			tokens.push_back({ "-", TokenType::MINUS });
+		}
 		if (input[i] == '=') {
 			tokens.push_back({ "=", TokenType::EQUALS });
 		}
