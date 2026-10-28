@@ -1,22 +1,31 @@
 #include "Lexer.hpp"
 #include <vector>
+#include <memory>
+
+#pragma once
 
 struct Expr
 {
 	Expr() = default;
 	virtual ~Expr() = default;
+	virtual int eval() = 0;
 };
 
 class Binary : public Expr
 {
 public:
-	Expr left;
+	std::unique_ptr<Expr> left;
 	std::string opr;
-	Expr right;
+	std::unique_ptr<Expr> right;
 
-	Binary(Expr l, Expr r, std::string o) : left(std::move(l)), right(std::move(r)), opr(std::move(o))
+	Binary(std::unique_ptr<Expr> l, std::unique_ptr<Expr> r, std::string o) : left(std::move(l)), right(std::move(r)), opr(std::move(o))
 	{
 	};
+
+	virtual int eval() {
+		return left->eval() + right->eval();
+	}
+
 private:
 
 };
@@ -30,6 +39,10 @@ public:
 
 	int number;
 
+	virtual int eval() {
+		return number;
+	}
+
 private:
 
 };
@@ -42,13 +55,13 @@ public:
 	{
 	};
 	
-	Expr expression();
-	Expr term();
-	Expr factor();
+	std::unique_ptr<Expr> expression();
+	std::unique_ptr<Expr> term();
+	std::unique_ptr<Expr> factor();
 
 	int current = 0;
 
-	Expr parse();
+	std::unique_ptr<Expr> parse();
 
 private:
 	std::vector<Token> toks;

@@ -4,41 +4,41 @@
 //5+3*4
 
 // + or -
-Expr Parser::expression() {
-	Expr left = term();
+std::unique_ptr<Expr> Parser::expression() {
+	std::unique_ptr<Expr> left = term();
 	while (toks[current].Type == TokenType::PLUS || toks[current].Type == TokenType::MINUS) {
 		std::string op = toks[current].value;
 		current++;
-		Expr right = factor();
-		left = Binary(left, right, op);
+		std::unique_ptr<Expr> right = std::move(factor());
+		left = std::make_unique<Binary>(std::move(left), std::move(right), op);
 	}
 
 	return left;
 }
 
 // * or /
-Expr Parser::term() {
-	Expr left = factor();
+std::unique_ptr<Expr> Parser::term() {
+	std::unique_ptr<Expr> left = factor();
 	while (toks[current].Type == TokenType::ASTERISK) {
 		std::string op = toks[current].value;
 		current++;
-		Expr right = factor();
-		left = Binary(left, right, op);
+		std::unique_ptr<Expr> right = std::move(factor());
+		left = std::make_unique<Binary>(std::move(left), std::move(right), op);
 	}
 
 	return left;
 }
 
 //numbers like 5
-Expr Parser::factor() {
+std::unique_ptr<Expr> Parser::factor() {
 	if (toks[current].Type == TokenType::INT) {
-		Number left(toks[current].value);
+		std::unique_ptr<Number> left = std::make_unique<Number>(toks[current].value);
 		current++;
 		return left;
 	}
 }
 
-Expr Parser::parse() {
-	auto e = expression();
+std::unique_ptr<Expr> Parser::parse() {
+	auto e = std::move(expression());
 	return e;
 }
