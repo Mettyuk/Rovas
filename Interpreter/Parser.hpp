@@ -23,7 +23,12 @@ public:
 	};
 
 	virtual int eval() {
-		return left->eval() + right->eval();
+		int l = left->eval();
+		int r = right->eval();
+
+		if (opr == "*") return r * l;
+		if (opr == "+") return r + l;
+		if (opr == "-") return r - l;
 	}
 
 private:

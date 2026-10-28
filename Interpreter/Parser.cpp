@@ -9,7 +9,7 @@ std::unique_ptr<Expr> Parser::expression() {
 	while (toks[current].Type == TokenType::PLUS || toks[current].Type == TokenType::MINUS) {
 		std::string op = toks[current].value;
 		current++;
-		std::unique_ptr<Expr> right = std::move(factor());
+		std::unique_ptr<Expr> right = std::move(term());
 		left = std::make_unique<Binary>(std::move(left), std::move(right), op);
 	}
 
@@ -39,6 +39,7 @@ std::unique_ptr<Expr> Parser::factor() {
 }
 
 std::unique_ptr<Expr> Parser::parse() {
-	auto e = std::move(expression());
+	std::unique_ptr<Expr> e = std::move(expression());
+
 	return e;
 }
